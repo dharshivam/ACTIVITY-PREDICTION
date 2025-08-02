@@ -9,7 +9,7 @@ with open('final_model.joblib', 'rb') as file:
 
 # Prediction function
 def prediction(inp_list):
-    pred = model.predict([inp_list])[0]
+    pred = model.predict(np.array[inp_list])[0]
     if pred == 0:
         return "Sitting on bed"
     elif pred == 1:
@@ -55,4 +55,5 @@ def main():
 # Run app
 if __name__ == '__main__':
     main()
+
 
