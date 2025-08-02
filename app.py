@@ -26,11 +26,11 @@ def main():
 
     st.image('imagedep.jpg')
 
-    rfid = st.dropbox("Enter the RFID configuation settings",['Config 1(4 Sensors)','Config 2(3 Sensors)'])
+    rfid = st.selectbox("Enter the RFID configuation settings",['Config 1(4 Sensors)','Config 2(3 Sensors)'])
     st.image('rfidimg.jpg')
     frid_e = (lambda x:3 if x=='Config2(3 Sensors)'else 4)(rfid)
 
-    ant_ID = st.dropbox('Select the Antenna ID' , [1,2,3,4])
+    ant_ID = st.selectbox('Select the Antenna ID' , [1,2,3,4])
     rssi = st.text_input('Enter the received signal strength indicator (RSSI)')
     accv = st.text_input('Enter the vertical acceleration data from sensor')
     accf = st.text_input('Enter the frontal acceleration data from sensor')
@@ -44,3 +44,4 @@ def main():
 
 if __name__=='__main__':
     main()
+
