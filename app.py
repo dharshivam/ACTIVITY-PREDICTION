@@ -4,7 +4,7 @@ import pandas as pd
 import joblib
 
 # Load the trained model
-with open('final_model', 'rb') as file:
+with open('final_model.joblib', 'rb') as file:
     model = joblib.load(file)
 
 # Prediction function
@@ -55,3 +55,4 @@ def main():
 # Run app
 if __name__ == '__main__':
     main()
+
