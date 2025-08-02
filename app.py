@@ -1,59 +1,47 @@
+
 import streamlit as st
 import numpy as np
 import pandas as pd
 import joblib
 
-# Load the trained model
-with open('final_model.joblib', 'rb') as file:
+with open('final_model.joblib','rb') as file:
     model = joblib.load(file)
 
-# Prediction function
 def prediction(inp_list):
-    pred = model.predict(np.array[inp_list])[0]
-    if pred == 0:
-        return "Sitting on bed"
-    elif pred == 1:
+
+    pred = model.predict([inp_list])[0]
+    if pred==0:
+        return 'Sitting on bed'
+    elif pred==1:
         return 'Sitting on chair'
-    elif pred == 2:
+    elif pred==2:
         return 'Lying on bed'
     else:
-        return "Ambulating"
+        return 'Ambulating'
+        
+        
 
-# Streamlit App
 def main():
-    st.title("📡 ACTIVITY PREDICTION FROM SENSOR DATA")
-    st.subheader(
-        "This application predicts the ongoing activity based on sensor data. "
-        "Fill in the values and click *Predict* to see the result."
-    )
+    st.title('ACTIVITY PREDICTION FROM SENSOR DATA')
+    st.subheader('''This application will predict the on going avtivity of the basis of sensor data provided. Fill the respective 
+    fields it will be predicted.''')
+    st.image('image.webp')
 
-    st.image('imagedep.jpg', caption="Sensor Setup")
+    rfid = st.dropbox('Enter the RFID configuration settings',['Config 1 (4 Sensors)','Config 2 (3 Sensors)'])
+    rfid_e = (lambda x: 3 if x=='Config 2 (3 Sensors)' else 4)(rfid)
 
-    # RFID Config
-    rfid = st.selectbox("Select RFID Configuration", ['Config 1 (4 Sensors)', 'Config 2 (3 Sensors)'])
-    st.image('rfidimg.jpg', caption="RFID Config Illustration")
+    ant_ID = st.dropbox('Select the Antena ID',[1,2,3,4])
+    rssi = st.text_input('Enter the received signal strength indicator (RSSI)')
+    accv = st.text_input('Enter the vertical acceleration data from sensor')
+    accf = st.text_input('Enter the frontal acceleration data from sensor')
+    accl = st.text_input('Enter the lateral acceleration data from sensor')
 
-    # Fix lambda logic (space in config name was wrong)
-    rfid_e = 3 if '3 Sensors' in rfid else 4
+    inp_data = [accf,accv,accl,ant_ID,rssi,rfid_e]
 
-    # User inputs
-    ant_ID = st.selectbox('Select the Antenna ID', [1, 2, 3, 4])
-    rssi = st.text_input('Enter RSSI (Received Signal Strength Indicator)')
-    accv = st.text_input('Enter Vertical Acceleration')
-    accf = st.text_input('Enter Frontal Acceleration')
-    accl = st.text_input('Enter Lateral Acceleration')
-
-    # Prediction
     if st.button('Predict'):
-        try:
-            inp_data = [float(accf), float(accv), float(accl), int(ant_ID), float(rssi), int(rfid_e)]
-            response = prediction(inp_data)
-            st.success(f"Predicted Activity: **{response}**")
-        except ValueError:
-            st.error("Please ensure all fields are filled with **valid numeric values**.")
+        response = prediction(inp_data)
+        st.success(response)
+    
 
-# Run app
-if __name__ == '__main__':
+if __name__=='__main__':
     main()
-
-
