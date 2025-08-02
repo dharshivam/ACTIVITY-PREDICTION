@@ -38,10 +38,11 @@ def main():
 
     inp_data = [accf , accv ,accl,ant_ID,rssi,rfid_e]
 
-     if st.button('Predict'):
+    if st.button('Predict'):
         response = prediction(inp_data)
         st.success(response)
 
 if __name__=='__main__':
     main()
+
 
